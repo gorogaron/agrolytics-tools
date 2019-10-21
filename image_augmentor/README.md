@@ -1,6 +1,6 @@
 # image-augmentor
 
- - Create augmented images via pipeline from training dataset.
+ Create augmented images via pipeline from training dataset.
 
 ## Usage
 ```python
