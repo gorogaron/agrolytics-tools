@@ -1,5 +1,12 @@
 # image-augmentor
 
-image_augmentor.py - Create augmented images via pipeline from training dataset.
+ - Create augmented images via pipeline from training dataset.
 
-renamer.py         - Rename all the created augmented images properly.
+## Usage
+```python
+python image_augmentor.py -i <json_dir> -m <mask_dir> -s <samples>
+```
+### Example command
+```python
+python image_augmentor.py -i ./train_images/ -m ./train_masks/ -s 200
+```
