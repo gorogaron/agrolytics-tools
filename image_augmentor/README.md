@@ -4,7 +4,7 @@
 
 ## Usage
 ```python
-python image_augmentor.py -i <json_dir> -m <mask_dir> -s <samples>
+python image_augmentor.py -i <input_dir> -m <mask_dir> -s <samples>
 ```
 ### Example command
 ```python
