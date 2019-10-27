@@ -1,12 +1,11 @@
-import numpy as np
 import cv2
+from tqdm import tqdm
 import argparse
-from matplotlib import pyplot as plt
 from random import uniform
 import os
-from os import listdir
 from os.path import isfile, join
 import shutil
+from padding_resize import padding_resize
 
 from albumentations import (
     PadIfNeeded,
@@ -31,7 +30,7 @@ from albumentations import (
 #imgdir   - directory of images
 #maskdir  - directory of corresponding masks
 #quantity - number of images to be generated
-#size     - TODO
+#size     - width and height of generated images
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--imgdir', type=str, required=True)
@@ -69,7 +68,7 @@ def visualize(image, mask, original_image=None, original_mask=None):
         ax[1, 1].set_title('Transformed mask', fontsize=fontsize)
 
 
-image_filenames = [f for f in listdir(imgdir) if isfile(join(imgdir, f))]
+image_filenames = [f for f in os.listdir(imgdir) if isfile(join(imgdir, f))]
 
 output_dir = './output'
 if os.path.exists(output_dir):
@@ -81,8 +80,8 @@ os.makedirs(output_dir + '/masks')
 
 print('Creating ' + str(quantity) + ' images into: ./output/images, ./output/masks...')
 
-i=0
-while i < quantity:
+
+for i in tqdm(range(quantity)):
     img_name = image_filenames[i%quantity]
     mask_name =  img_name[0:-4] + '.png'
 
@@ -91,7 +90,7 @@ while i < quantity:
 
     original_height, original_width = mask.shape[:2]
 
-    #Cropping random area
+    #Parameters for cropping random area
     x_min = (int(original_width*uniform(0,0.2))) 
     y_min = (int(original_height*uniform(0,0.2))) 
 
@@ -104,18 +103,16 @@ while i < quantity:
         VerticalFlip(p=0.5),
         RandomRotate90(p=0.33),
         GridDistortion(p=0.5),
-        RandomBrightnessContrast(p = 0.75, brightness_limit=0.3, contrast_limit=0.3)
+        RandomBrightnessContrast(p = 0.75, brightness_limit=0.3, contrast_limit=0.3),
+        OpticalDistortion(p=0.5, distort_limit=0.75, shift_limit=0)
     ])
     augmented = aug(image=image, mask=mask)
 
     image_augmented = augmented['image']
     mask_augmented = augmented['mask']*250
-
-    cv2.imwrite('./output/images/augmented_' + str(i) + '.png', image_augmented)
-    cv2.imwrite('./output/masks/augmented_' + str(i) + '.png', mask_augmented)
-    i = i + 1
-    
+    image_augmented_resized, mask_augmented_resized = padding_resize(image_augmented, mask_augmented, size)
+    cv2.imwrite('./output/images/augmented_' + str(i) + '.png', image_augmented_resized)
+    cv2.imwrite('./output/masks/augmented_' + str(i) + '.png', mask_augmented_resized)
 
 #TODO: Appropriate parametrization
 #aug = ElasticTransform(p=1, alpha=original_width*0.03, sigma=original_width*0.004, alpha_affine=original_width * 0.02)
-#aug = OpticalDistortion(p=1, distort_limit=1.1, shift_limit=0.5)
