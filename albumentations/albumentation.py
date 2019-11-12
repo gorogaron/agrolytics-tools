@@ -35,6 +35,8 @@ from albumentations import (
 parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--imgdir', type=str, required=True)
 parser.add_argument('-m', '--maskdir', type=str, required=True)
+parser.add_argument('-id', '--imgdestdir', type=str, required=True)
+parser.add_argument('-md', '--maskdestdir', type=str, required=True)
 parser.add_argument('-s', '--size', type=int, required=True)
 parser.add_argument('-q', '--quantity', type=int, required=True)
 
@@ -44,6 +46,8 @@ imgdir = args.imgdir
 maskdir = args.maskdir
 size = args.size
 quantity = args.quantity
+imgdestdir = os.path.join(os.getcwd(),args.imgdestdir)
+maskdestdir = os.path.join(os.getcwd(),args.maskdestdir)
 
 image_filenames = [f for f in os.listdir(imgdir) if isfile(join(imgdir, f))]
 
@@ -86,10 +90,10 @@ for i in tqdm(range(quantity)):
     augmented = aug(image=image, mask=mask)
 
     image_augmented = augmented['image']
-    mask_augmented = augmented['mask']*250
+    mask_augmented = augmented['mask']
     image_augmented_resized, mask_augmented_resized = padding_resize(image_augmented, mask_augmented, size)
-    cv2.imwrite('./output/images/augmented_' + str(i) + '.png', image_augmented_resized)
-    cv2.imwrite('./output/masks/augmented_' + str(i) + '.png', mask_augmented_resized)
+    cv2.imwrite(imgdestdir + '/augmented_' + str(i) + '.png', image_augmented_resized)
+    cv2.imwrite(maskdestdir + '/augmented_' + str(i) + '.png', mask_augmented_resized)
 
 #TODO: Appropriate parametrization
 #aug = ElasticTransform(p=1, alpha=original_width*0.03, sigma=original_width*0.004, alpha_affine=original_width * 0.02)
