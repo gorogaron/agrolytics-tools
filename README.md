@@ -36,6 +36,12 @@ Arguments:
 
 Run **create_dataset.sh** to automatically create and augment dataset for the training scripts. Modify parameters inside the shell script.
 
+Run the following on AWS:
+<pre>
+conda install tqdm
+pip install albumentations
+pip install --upgrade scikit-image
+</pre>
 ## visualizer
 The script draws the masks onto the corresponding images.
 
