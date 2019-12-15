@@ -11,8 +11,9 @@ Arguments:
 --maskdir     Directory of original sized masks
 --imgdestdir  Output directory of augmented images
 --maskdestdir Output director of augmented masks
---size        Size of output images. Output images will be resized to (w x w) with padding_resize.py
+--size        Size of output images. Output images will be resized to (w x h). If w=h, --padding switch is also needed.
 --quantity    Number of augmented images to be generated
+--padding     Only needed if w==h. If padding = 1, resizing will be done by padding instead of warping.
 </pre>
 
 
