@@ -37,8 +37,9 @@ Arguments:
 
 Run **create_dataset.sh** to automatically create and augment dataset for the training scripts. Modify parameters inside the shell script.
 
-Run the following on AWS:
+Run the following on AWS to be able to run the .sh script:
 <pre>
+conda activate tensorflow_p36
 conda install tqdm
 pip install albumentations
 pip install --upgrade scikit-image
