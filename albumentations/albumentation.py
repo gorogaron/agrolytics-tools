@@ -110,7 +110,7 @@ for i in tqdm(range(quantity)):
     mask_augmented = augmented['mask']
 
     if (padding_needed):
-        image_augmented_resized, mask_augmented_resized = padding_resize(image_augmented, mask_augmented, size)
+        image_augmented_resized, mask_augmented_resized = padding_resize(image_augmented, mask_augmented, int(size[0]))
     else:
         image_augmented_resized = cv2.resize(image_augmented, (int(size[0]), int(size[1])))
         mask_augmented_resized = cv2.resize(mask_augmented, (int(size[0]), int(size[1])))
