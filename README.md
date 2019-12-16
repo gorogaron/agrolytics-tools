@@ -13,7 +13,7 @@ Arguments:
 --maskdestdir Output director of augmented masks
 --size        Size of output images. Output images will be resized to (w x h). If w=h, --padding switch is also needed.
 --quantity    Number of augmented images to be generated
---padding     Only needed if w==h. If padding = 1, resizing will be done by padding instead of warping.
+--padding     Only relevant if w==h. If padding = 1, resizing will be done by padding instead of warping.
 </pre>
 
 
@@ -32,7 +32,7 @@ Arguments:
 --valimg      Destination of validation images
 --valmask     Destination of validation masks
 --size        Size of output images. Output images will be resized to (w x w) with padding_resize.py
---padding     Only needed if w==h. If padding = 1, resizing will be done by padding instead of warping.
+--padding     Only relevant if w==h. If padding = 1, resizing will be done by padding instead of warping.
 </pre>
 
 Run **create_dataset.sh** to automatically create and augment dataset for the training scripts. Modify parameters inside the shell script.
