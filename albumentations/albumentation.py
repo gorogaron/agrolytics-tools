@@ -78,7 +78,7 @@ if not (os.path.exists(imgdestdir) or os.path.exists(maskdestdir)):
 print('Creating ' + str(quantity) + ' images into: ' + imgdestdir + ' , ' + maskdestdir)
 
 for i in tqdm(range(quantity)):
-    img_name = image_filenames[i%quantity]
+    img_name = image_filenames[i%len(image_filenames)]
     mask_name =  img_name[0:-4] + '.png'
 
     image = cv2.imread(os.path.join(imgdir,img_name))
